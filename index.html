@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Монгол Бичиг Lens</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #0f1923;
+  --gold: #c9973a;
+  --gold-light: #f5e6c8;
+  --gold-dark: #a07828;
+  --cream: #faf7f2;
+  --card: #ffffff;
+  --muted: #8a7f74;
+  --border: #e8e0d4;
+  --shadow: 0 12px 40px rgba(15,25,35,0.10);
+  --r: 18px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 16px 14px 60px;
+}
+
+/* ─── Header ─── */
+.header {
+  max-width: 560px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 10px 10px;
+  background: var(--ink);
+  border-radius: 999px;
+  box-shadow: 0 8px 28px rgba(15,25,35,0.22);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 40px; height: 40px;
+  background: var(--gold);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  box-shadow: 0 4px 12px rgba(201,151,58,.4);
+}
+
+.logo-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.3px;
+}
+
+.logo-name span { color: var(--gold); }
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+  border: 1.5px solid rgba(201,151,58,.4);
+  padding: 5px 11px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Nav Tabs ─── */
+.tabs {
+  max-width: 560px;
+  margin: 0 auto 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.tab {
+  padding: 12px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  background: white;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .22s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.tab.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--gold);
+  box-shadow: 0 6px 20px rgba(15,25,35,.18);
+}
+
+/* ─── Cards ─── */
+.card {
+  max-width: 560px;
+  margin: 0 auto;
+  background: white;
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+/* ══════════════════════════════
+   LENS TAB
+══════════════════════════════ */
+.lens-top {
+  background: var(--ink);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.lens-top::before {
+  content: 'ᠮᠣᠩᠭᠣᠯ';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 80px;
+  color: rgba(201,151,58,.12);
+  writing-mode: vertical-lr;
+  pointer-events: none;
+  letter-spacing: 8px;
+}
+
+.lens-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.lens-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,.5);
+  font-weight: 500;
+}
+
+/* Source selector */
+.source-row {
+  display: flex;
+  gap: 8px;
+  padding: 16px 16px 0;
+}
+
+.btn-src {
+  flex: 1;
+  padding: 11px;
+  border: 2px solid var(--border);
+  background: var(--cream);
+  border-radius: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-src:hover, .btn-src.active-src {
+  border-color: var(--gold);
+  background: var(--gold-light);
+  color: var(--gold-dark);
+}
+
+/* Dropzone */
+.dropzone {
+  margin: 14px 16px 0;
+  border: 2.5px dashed #d8cfc4;
+  border-radius: 16px;
+  padding: 30px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  background: var(--cream);
+  text-align: center;
+}
+
+.dropzone:hover, .dropzone.over {
+  border-color: var(--gold);
+  background: var(--gold-light);
+}
+
+.drop-icon { font-size: 40px; }
+
+.drop-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.drop-sub { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+/* Camera wrap */
+.cam-wrap {
+  margin: 14px 16px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  position: relative;
+  display: none;
+  background: #000;
+}
+
+.cam-wrap video {
+  width: 100%;
+  max-height: 280px;
+  display: block;
+  object-fit: cover;
+}
+
+.cam-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+  background: linear-gradient(transparent 50%, rgba(0,0,0,.6));
+}
+
+.cam-btns { display: flex; gap: 8px; width: 100%; }
+
+.btn-snap {
+  flex: 1;
+  padding: 12px;
+  background: var(--gold);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.btn-snap:hover { background: var(--gold-dark); color: white; }
+
+.btn-stopcam {
+  padding: 12px 14px;
+  background: rgba(255,255,255,.15);
+  border: 1.5px solid rgba(255,255,255,.3);
+  border-radius: 12px;
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+canvas { display: none; }
+
+/* Preview */
+.preview-img {
+  width: calc(100% - 32px);
+  margin: 14px 16px 0;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  max-height: 260px;
+  object-fit: contain;
+  display: none;
+  background: var(--cream);
+}
+
+/* Action row */
+.action-row {
+  display: flex;
+  gap: 8px;
+  padding: 14px 16px 0;
+}
+
+.btn-scan {
+  flex: 1;
+  padding: 14px;
+  background: var(--gold);
+  border: none;
+  border-radius: 14px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all .2s;
+  display: none;
+  box-shadow: 0 6px 18px rgba(201,151,58,.35);
+}
+
+.btn-scan:hover { background: var(--gold-dark); color: white; transform: translateY(-1px); }
+.btn-scan:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+.btn-icon {
+  width: 46px; height: 46px;
+  border: 1.5px solid var(--border);
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 17px;
+  display: none;
+  place-items: center;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+
+.btn-icon:hover { background: var(--gold-light); border-color: var(--gold); }
+.btn-icon.show { display: grid; }
+
+/* Spinner */
+.spinner {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  color: var(--gold-dark);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.spinner.show { display: flex; }
+
+.dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse 1.2s infinite;
+}
+
+.dot:nth-child(2) { animation-delay: .2s; }
+.dot:nth-child(3) { animation-delay: .4s; }
+
+@keyframes pulse {
+  0%,80%,100% { transform: scale(.5); opacity: .3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Result panel */
+.result-panel {
+  margin: 14px 16px 16px;
+  border-radius: 16px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  display: none;
+}
+
+.result-panel.show { display: block; }
+
+.result-section {
+  padding: 14px;
+  border-bottom: 1.5px solid var(--border);
+}
+
+.result-section:last-child { border-bottom: none; }
+
+.result-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.result-tag::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.result-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.result-text.script {
+  font-size: 26px;
+  writing-mode: vertical-lr;
+  font-family: 'Noto Sans Mongolian', serif;
+  line-height: 2;
+  max-height: 200px;
+  overflow-x: auto;
+  color: var(--ink);
+}
+
+.result-copy {
+  float: right;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--muted);
+  margin-left: 8px;
+  margin-top: -2px;
+}
+
+.result-copy:hover { color: var(--gold-dark); border-color: var(--gold); background: var(--gold-light); }
+
+/* ══════════════════════════════
+   DICTIONARY TAB
+══════════════════════════════ */
+.dict-header {
+  background: linear-gradient(135deg, var(--ink) 0%, #1e2f3f 100%);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dict-header::after {
+  content: '᠁';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 100px;
+  color: rgba(201,151,58,.1);
+  writing-mode: vertical-lr;
+}
+
+.dict-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 14px;
+}
+
+.search-wrap {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 13px 46px 13px 16px;
+  border-radius: 12px;
+  border: 2px solid rgba(201,151,58,.3);
+  background: rgba(255,255,255,.1);
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  outline: none;
+  transition: all .2s;
+}
+
+.search-input::placeholder { color: rgba(255,255,255,.35); }
+.search-input:focus { border-color: var(--gold); background: rgba(255,255,255,.15); }
+
+.search-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+/* Direction toggle */
+.dir-row {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px 0;
+}
+
+.dir-btn {
+  flex: 1;
+  padding: 9px;
+  border: 1.5px solid var(--border);
+  background: var(--cream);
+  border-radius: 10px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+}
+
+.dir-btn.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--gold);
+}
+
+/* Dict results */
+.dict-results {
+  padding: 12px 16px 20px;
+  min-height: 200px;
+}
+
+.dict-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+}
+
+.dict-empty-icon { font-size: 44px; margin-bottom: 10px; }
+.dict-empty-text { font-size: 14px; font-weight: 600; }
+
+.dict-entry {
+  padding: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  transition: all .2s;
+  cursor: pointer;
+  background: white;
+}
+
+.dict-entry:hover {
+  border-color: var(--gold);
+  box-shadow: 0 4px 14px rgba(201,151,58,.15);
+  transform: translateY(-1px);
+}
+
+.dict-entry-script {
+  font-size: 24px;
+  writing-mode: vertical-lr;
+  font-family: 'Noto Sans Mongolian', serif;
+  line-height: 2;
+  color: var(--ink);
+  float: left;
+  margin-right: 14px;
+  max-height: 80px;
+}
+
+.dict-entry-body { overflow: hidden; }
+
+.dict-entry-cyrillic {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.dict-entry-meaning {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.dict-entry-pos {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--gold-dark);
+  background: var(--gold-light);
+  border: 1px solid #e8d5a8;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+}
+
+.ai-dict-result {
+  padding: 16px;
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  background: var(--gold-light);
+  margin-bottom: 10px;
+  display: none;
+}
+
+.ai-dict-result.show { display: block; }
+
+.ai-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-content {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* ─── Status ─── */
+.status {
+  max-width: 560px;
+  margin: 12px auto 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  min-height: 18px;
+  color: var(--muted);
+}
+
+.status.ok { color: #1e8c42; }
+.status.err { color: #c0392b; }
+
+
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">᠁</div>
+    <div class="logo-name">Монгол<span>Lens</span></div>
+  </div>
+  <div class="badge">AI • ТОЛЬ</div>
+</header>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" id="t1" onclick="go('lens')">🔍 Зураг Lens</button>
+  <button class="tab" id="t2" onclick="go('dict')">📖 Толь бичиг</button>
+</div>
+
+<!-- ══ LENS ══ -->
+<div class="card" id="lensTab">
+  <div class="lens-top">
+    <div class="lens-title">Зургаас унших</div>
+    <div class="lens-sub">Google Lens шиг — зураг оруулахад кирилл болгоно</div>
+  </div>
+
+  <div class="source-row">
+    <button class="btn-src" onclick="triggerFile()">🖼️ Зураг сонгох</button>
+    <button class="btn-src" id="camBtn" onclick="openCam()">📷 Камер</button>
+  </div>
+  <input type="file" id="fileIn" accept="image/*" style="display:none" onchange="onFile(event)"/>
+
+  <div class="dropzone" id="dz"
+    onclick="triggerFile()"
+    ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event)">
+    <div class="drop-icon">📄</div>
+    <div class="drop-title">Монгол бичгийн зураг оруулах</div>
+    <div class="drop-sub">Ном, бичиг, гарын бичээс — бүгдийг уншина</div>
+  </div>
+
+  <div class="cam-wrap" id="camWrap">
+    <video id="vid" autoplay playsinline></video>
+    <div class="cam-overlay">
+      <div class="cam-btns">
+        <button class="btn-snap" onclick="snap()">📸 Зураг авах</button>
+        <button class="btn-stopcam" onclick="stopCam()">✕</button>
+      </div>
+    </div>
+  </div>
+  <canvas id="cnv"></canvas>
+
+  <img class="preview-img" id="prev" alt="preview"/>
+
+  <div class="action-row">
+    <button class="btn-scan" id="scanBtn" onclick="doScan()">🔍 Уншиж орчуулах</button>
+    <button class="btn-icon show" id="clearBtn" onclick="clearAll()" title="Арилгах" style="display:none">🗑️</button>
+  </div>
+
+  <div class="spinner" id="spin">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <span>AI уншиж байна...</span>
+  </div>
+
+  <div class="result-panel" id="resultPanel">
+    <div class="result-section">
+      <div class="result-tag">
+        📖 Кирилл орчуулга
+        <button class="result-copy" onclick="copyEl('cyrText')">Хуулах</button>
+      </div>
+      <div class="result-text" id="cyrText"></div>
+    </div>
+    <div class="result-section" id="scriptSection">
+      <div class="result-tag">
+        ᠮ Монгол бичиг (Unicode)
+        <button class="result-copy" onclick="copyEl('scriptText')">Хуулах</button>
+      </div>
+      <div class="result-text script" id="scriptText"></div>
+    </div>
+    <div class="result-section" id="meaningSection">
+      <div class="result-tag">💡 Тайлбар & Контекст</div>
+      <div class="result-text" id="meaningText"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DICT ══ -->
+<div class="card" id="dictTab" style="display:none">
+  <div class="dict-header">
+    <div class="dict-title">Үндэсний бичиг — Монгол толь</div>
+    <div class="search-wrap">
+      <input class="search-input" id="searchIn" placeholder="Үг хайх... (кирилл эсвэл монгол бичиг)"
+        oninput="onSearch()" onkeydown="if(event.key==='Enter') aiSearch()"/>
+      <div class="search-icon">🔍</div>
+    </div>
+  </div>
+
+  <div class="dir-row">
+    <button class="dir-btn active" id="d1" onclick="setDir('cyr')">Кирилл → Монгол бичиг</button>
+    <button class="dir-btn" id="d2" onclick="setDir('mng')">Монгол бичиг → Кирилл</button>
+    <button class="dir-btn" id="d3" onclick="setDir('ai')">🤖 AI тайлбар</button>
+  </div>
+
+  <div class="dict-results" id="dictResults">
+    <div class="dict-empty">
+      <div class="dict-empty-icon">📚</div>
+      <div class="dict-empty-text">Хайх үгээ оруулна уу</div>
+    </div>
+  </div>
+</div>
+
+<div class="status" id="st"></div>
+
+<script>
+// ══════════════════════════
+// DICTIONARY DATA
+// ══════════════════════════
+const DICT = [
+  { cyr:'аав', script:'ᠠᠪᠤ', pos:'нэр', meaning:'Эцэг, эцэг хүн' },
+  { cyr:'ээж', script:'ᠡᠵᠢ', pos:'нэр', meaning:'Эх, эх хүн' },
+  { cyr:'ах', script:'ᠠᠬ᠎ᠠ', pos:'нэр', meaning:'Дүүгийн эрэгтэй ах' },
+  { cyr:'дүү', script:'ᠳᠡᠭᠦᠦ', pos:'нэр', meaning:'Өөрөөс залуу төрөл' },
+  { cyr:'нохой', script:'ᠨᠣᠬᠠᠢ', pos:'нэр', meaning:'Тэжээмэл амьтан, гэрийн нохой' },
+  { cyr:'морь', script:'ᠮᠣᠷᠢ', pos:'нэр', meaning:'Адуу, унах мал' },
+  { cyr:'тэмээ', script:'ᠲᠡᠮᠡᠭᠡ', pos:'нэр', meaning:'Говийн тэмээ, унаа мал' },
+  { cyr:'үхэр', script:'ᠦᠬᠡᠷ', pos:'нэр', meaning:'Том бод мал' },
+  { cyr:'хонь', script:'ᠬᠣᠨᠢ', pos:'нэр', meaning:'Бог малын нэг' },
+  { cyr:'ямаа', script:'ᠢᠮᠠᠭᠠ', pos:'нэр', meaning:'Бог малын нэг, ноолуур өгдөг' },
+  { cyr:'ус', script:'ᠤᠰᠤ', pos:'нэр', meaning:'Уух шингэн, гол нуурын ус' },
+  { cyr:'гал', script:'ᠭᠠᠯ', pos:'нэр', meaning:'Дөл, шатаж байгаа зүйл' },
+  { cyr:'газар', script:'ᠭᠠᠵᠠᠷ', pos:'нэр', meaning:'Дэлхий, хөрс, нутаг' },
+  { cyr:'тэнгэр', script:'ᠲᠡᠩᠭᠡᠷ', pos:'нэр', meaning:'Огторгуй, цэнхэр тэнгэр' },
+  { cyr:'нар', script:'ᠨᠠᠷᠠ', pos:'нэр', meaning:'Гэрэл дулаан өгдөг одон' },
+  { cyr:'сар', script:'ᠰᠠᠷᠠ', pos:'нэр', meaning:'Шөнийн гэрэл, дун мэнгэт сар' },
+  { cyr:'уул', script:'ᠠᠭᠤᠯᠠ', pos:'нэр', meaning:'Өндөр газрын хэлбэр' },
+  { cyr:'гол', script:'ᠭᠣᠣᠯ', pos:'нэр', meaning:'Урсдаг ус, мөрөн' },
+  { cyr:'нуур', script:'ᠨᠠᠭᠤᠷ', pos:'нэр', meaning:'Зогсонги их ус' },
+  { cyr:'цас', script:'ᠴᠠᠰᠤ', pos:'нэр', meaning:'Өвлийн цагаан тунадас' },
+  { cyr:'салхи', script:'ᠰᠠᠯᠬᠢ', pos:'нэр', meaning:'Агаарын хөдөлгөөн' },
+  { cyr:'мод', script:'ᠮᠣᠳᠤ', pos:'нэр', meaning:'Ойн ургамал' },
+  { cyr:'цэцэг', script:'ᠴᠡᠴᠡᠭ', pos:'нэр', meaning:'Ургамлын дэлгэрэх хэсэг' },
+  { cyr:'хот', script:'ᠬᠣᠲᠠ', pos:'нэр', meaning:'Том суурин газар' },
+  { cyr:'гэр', script:'ᠭᠡᠷ', pos:'нэр', meaning:'Амьдрах байр, юрт' },
+  { cyr:'айл', script:'ᠠᠢᠯ', pos:'нэр', meaning:'Гэр бүл, хамтарсан амьдрагчид' },
+  { cyr:'нутаг', script:'ᠨᠤᠲᠤᠭ', pos:'нэр', meaning:'Төрсөн газар, эх орон' },
+  { cyr:'монгол', script:'ᠮᠣᠩᠭᠣᠯ', pos:'нэр', meaning:'Монгол үндэстэн, улс орон' },
+  { cyr:'хаан', script:'ᠬᠠᠭᠠᠨ', pos:'нэр', meaning:'Эзэн хаан, хүчирхэг удирдагч' },
+  { cyr:'дайн', script:'ᠳᠠᠢᠨ', pos:'нэр', meaning:'Цэргийн тулаан, байлдаан' },
+  { cyr:'энх', script:'ᠡᠩᠬᠡ', pos:'нэр', meaning:'Тайван, амар энх' },
+  { cyr:'баяр', script:'ᠪᠠᠶᠠᠷ', pos:'нэр', meaning:'Баясал, тэмдэглэлт үйл явдал' },
+  { cyr:'хайр', script:'ᠬᠠᠢᠷ᠎ᠠ', pos:'нэр', meaning:'Дур хайр, хайрлах сэтгэл' },
+  { cyr:'найз', script:'ᠨᠠᠢᠵᠠ', pos:'нэр', meaning:'Найрсаг хүн, найз нөхөр' },
+  { cyr:'сайн', script:'ᠰᠠᠢᠨ', pos:'тэмд', meaning:'Чанар сайн, эерэг утга' },
+  { cyr:'муу', script:'ᠮᠠᠭᠤ', pos:'тэмд', meaning:'Чанар муу, сөрөг утга' },
+  { cyr:'их', script:'ᠶᠡᠬᠡ', pos:'тэмд', meaning:'Хэмжээ, тоо их' },
+  { cyr:'бага', script:'ᠪᠠᠭ᠎ᠠ', pos:'тэмд', meaning:'Хэмжээ, тоо цөөн' },
+  { cyr:'өндөр', script:'ᠦᠨᠳᠦᠷ', pos:'тэмд', meaning:'Дээш чиглэсэн, урт' },
+  { cyr:'намхан', script:'ᠨᠠᠮᠬᠠᠨ', pos:'тэмд', meaning:'Өндөр биш, доор' },
+  { cyr:'хурдан', script:'ᠬᠤᠷᠳᠤᠨ', pos:'тэмд', meaning:'Хурдтай, түргэн' },
+  { cyr:'удаан', script:'ᠤᠳᠠᠭᠠᠨ', pos:'тэмд', meaning:'Хурдан биш, аажуу' },
+  { cyr:'хайрлах', script:'ᠬᠠᠢᠷᠠᠯᠠᠬᠤ', pos:'үйл', meaning:'Хайрлаж дурлах, санаа тавих' },
+  { cyr:'явах', script:'ᠶᠠᠪᠤᠬᠤ', pos:'үйл', meaning:'Нэг газраас нөгөөд хөдлөх' },
+  { cyr:'ирэх', script:'ᠢᠷᠡᠬᠦ', pos:'үйл', meaning:'Очиж ирэх, хүрэлцэх' },
+  { cyr:'идэх', script:'ᠢᠳᠡᠬᠦ', pos:'үйл', meaning:'Хоол хүнс залгих' },
+  { cyr:'уух', script:'ᠤᠤᠬᠤ', pos:'үйл', meaning:'Шингэн залгих' },
+  { cyr:'унтах', script:'ᠤᠨᠲᠠᠬᠤ', pos:'үйл', meaning:'Нойрссох, амрах' },
+  { cyr:'ярих', script:'ᠶᠠᠷᠢᠬᠤ', pos:'үйл', meaning:'Үгэ хэлэх, харилцах' },
+  { cyr:'бичих', script:'ᠪᠢᠴᠢᠬᠦ', pos:'үйл', meaning:'Тэмдэглэл хийх, бичиг зурах' },
+  { cyr:'унших', script:'ᠤᠩᠰᠢᠬᠤ', pos:'үйл', meaning:'Бичмэлийг харж ойлгох' },
+  { cyr:'нэг', script:'ᠨᠢᠭᠡ', pos:'тоо', meaning:'1 тоо' },
+  { cyr:'хоёр', script:'ᠬᠣᠶᠠᠷ', pos:'тоо', meaning:'2 тоо' },
+  { cyr:'гурав', script:'ᠭᠤᠷᠪᠠ', pos:'тоо', meaning:'3 тоо' },
+  { cyr:'дөрөв', script:'ᠳᠥᠷᠪᠡ', pos:'тоо', meaning:'4 тоо' },
+  { cyr:'тав', script:'ᠲᠠᠪᠤ', pos:'тоо', meaning:'5 тоо' },
+  { cyr:'зургаа', script:'ᠵᠢᠷᠭᠤᠭ᠎ᠠ', pos:'тоо', meaning:'6 тоо' },
+  { cyr:'долоо', script:'ᠳᠣᠯᠣᠭ᠎ᠠ', pos:'тоо', meaning:'7 тоо' },
+  { cyr:'найм', script:'ᠨᠠᠢᠮᠠ', pos:'тоо', meaning:'8 тоо' },
+  { cyr:'ес', script:'ᠶᠢᠰᠦ', pos:'тоо', meaning:'9 тоо' },
+  { cyr:'арав', script:'ᠠᠷᠪᠠ', pos:'тоо', meaning:'10 тоо' },
+];
+
+// ══════════════════════════
+// STATE
+// ══════════════════════════
+// 🔑 ЭНД ӨӨРИЙН KEY-Г ОРУУЛ
+const GEMINI_KEY = 'ЭНЭД_ӨӨРИЙН_KEY_ОРУУЛ';
+
+let camStream = null;
+let imgB64 = null;
+let imgMime = null;
+let dictDir = 'cyr';
+let activeTab = 'lens';
+
+
+
+
+// ══════════════════════════
+// TAB
+// ══════════════════════════
+function go(tab) {
+  activeTab = tab;
+  document.getElementById('lensTab').style.display = tab === 'lens' ? 'block' : 'none';
+  document.getElementById('dictTab').style.display = tab === 'dict' ? 'block' : 'none';
+  document.getElementById('t1').classList.toggle('active', tab === 'lens');
+  document.getElementById('t2').classList.toggle('active', tab === 'dict');
+}
+
+// ══════════════════════════
+// LENS
+// ══════════════════════════
+function triggerFile() { document.getElementById('fileIn').click(); }
+
+function onFile(e) {
+  const f = e.target.files?.[0];
+  if (f && f.type.startsWith('image/')) loadImg(f);
+}
+
+function dzOver(e) { e.preventDefault(); document.getElementById('dz').classList.add('over'); }
+function dzLeave() { document.getElementById('dz').classList.remove('over'); }
+function dzDrop(e) {
+  e.preventDefault();
+  document.getElementById('dz').classList.remove('over');
+  const f = e.dataTransfer.files?.[0];
+  if (f && f.type.startsWith('image/')) loadImg(f);
+}
+
+function loadImg(file) {
+  const r = new FileReader();
+  r.onload = ev => {
+    const url = ev.target.result;
+    imgB64 = url.split(',')[1];
+    imgMime = file.type;
+    const p = document.getElementById('prev');
+    p.src = url;
+    p.style.display = 'block';
+    document.getElementById('dz').style.display = 'none';
+    document.getElementById('scanBtn').style.display = 'block';
+    document.getElementById('clearBtn').style.display = 'grid';
+    document.getElementById('resultPanel').classList.remove('show');
+    setS('Зураг бэлэн. Уншиж орчуулах товч дарна уу.', 'ok');
+  };
+  r.readAsDataURL(file);
+}
+
+async function openCam() {
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+    document.getElementById('vid').srcObject = camStream;
+    document.getElementById('camWrap').style.display = 'block';
+    document.getElementById('dz').style.display = 'none';
+    document.getElementById('camBtn').textContent = '📷 Нээлттэй';
+    setS('Камер нээгдлээ.', 'ok');
+  } catch {
+    setS('Камер нээгдсэнгүй. Зөвшөөрөл шалгана уу.', 'err');
+  }
+}
+
+function stopCam() {
+  if (camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  document.getElementById('camWrap').style.display = 'none';
+  document.getElementById('dz').style.display = 'flex';
+  document.getElementById('camBtn').textContent = '📷 Камер';
+}
+
+function snap() {
+  const v = document.getElementById('vid');
+  const c = document.getElementById('cnv');
+  c.width = v.videoWidth; c.height = v.videoHeight;
+  c.getContext('2d').drawImage(v, 0, 0);
+  const url = c.toDataURL('image/jpeg', 0.92);
+  imgB64 = url.split(',')[1];
+  imgMime = 'image/jpeg';
+  const p = document.getElementById('prev');
+  p.src = url; p.style.display = 'block';
+  stopCam();
+  document.getElementById('scanBtn').style.display = 'block';
+  document.getElementById('clearBtn').style.display = 'grid';
+  setS('Зураг авлаа. Уншиж орчуулах товч дарна уу.', 'ok');
+}
+
+function clearAll() {
+  imgB64 = null; imgMime = null;
+  stopCam();
+  document.getElementById('prev').style.display = 'none';
+  document.getElementById('prev').src = '';
+  document.getElementById('dz').style.display = 'flex';
+  document.getElementById('scanBtn').style.display = 'none';
+  document.getElementById('clearBtn').style.display = 'none';
+  document.getElementById('resultPanel').classList.remove('show');
+  document.getElementById('fileIn').value = '';
+  setS('', '');
+}
+
+async function doScan() {
+  if (!imgB64) return;
+  const btn = document.getElementById('scanBtn');
+  const spin = document.getElementById('spin');
+  btn.disabled = true;
+  spin.classList.add('show');
+  document.getElementById('resultPanel').classList.remove('show');
+  setS('AI зургийг уншиж байна...', '');
+
+  const prompt = `Энэ зурагт байгаа бүх монгол бичиг болон текстийг уншиж, дараах форматаар хариул:
+
+КИРИЛЛ: [Зурагт байгаа текстийн кирилл орчуулга. Монгол бичиг байвал кириллд хөрвүүл]
+UNICODE: [Зурагт байгаа монгол бичгийг Unicode монгол бичгийн кодоор бич]
+ТАЙЛБАР: [Зурагт байгаа агуулга, контекст, нэмэлт тайлбар]
+
+Хэрэв зурагт монгол бичиг байхгүй бол КИРИЛЛ талд "Монгол бичиг олдсонгүй" гэж бич.`;
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [
+          { inline_data: { mime_type: imgMime, data: imgB64 } },
+          { text: prompt }
+        ]}]})
+      }
+    );
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const txt = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    const cyrM = txt.match(/КИРИЛЛ:\s*([\s\S]*?)(?=UNICODE:|$)/);
+    const uniM = txt.match(/UNICODE:\s*([\s\S]*?)(?=ТАЙЛБАР:|$)/);
+    const expM = txt.match(/ТАЙЛБАР:\s*([\s\S]*?)$/);
+
+    document.getElementById('cyrText').textContent = cyrM?.[1]?.trim() || '—';
+    document.getElementById('scriptText').textContent = uniM?.[1]?.trim() || '—';
+    document.getElementById('meaningText').textContent = expM?.[1]?.trim() || '—';
+    document.getElementById('resultPanel').classList.add('show');
+    setS('Амжилттай уншлаа ✓', 'ok');
+  } catch(e) {
+    setS('Алдаа: ' + (e.message || 'Дахин оролдоно уу.'), 'err');
+  } finally {
+    btn.disabled = false;
+    spin.classList.remove('show');
+  }
+}
+
+async function copyEl(id) {
+  const t = document.getElementById(id)?.textContent || '';
+  await navigator.clipboard.writeText(t).catch(() => {});
+  setS('Хуулагдлаа ✓', 'ok');
+}
+
+// ══════════════════════════
+// DICTIONARY
+// ══════════════════════════
+function setDir(d) {
+  dictDir = d;
+  ['d1','d2','d3'].forEach((id, i) => {
+    document.getElementById(id).classList.toggle('active', ['cyr','mng','ai'][i] === d);
+  });
+  onSearch();
+}
+
+let aiTimer = null;
+
+function onSearch() {
+  const q = document.getElementById('searchIn').value.trim().toLowerCase();
+  const container = document.getElementById('dictResults');
+
+  if (!q) {
+    container.innerHTML = `<div class="dict-empty"><div class="dict-empty-icon">📚</div><div class="dict-empty-text">Хайх үгээ оруулна уу</div></div>`;
+    return;
+  }
+
+  if (dictDir === 'ai') {
+    clearTimeout(aiTimer);
+    aiTimer = setTimeout(() => aiSearch(), 800);
+    container.innerHTML = `<div class="dict-empty"><div class="dict-empty-icon">⏳</div><div class="dict-empty-text">AI тайлбар хийж байна...</div></div>`;
+    return;
+  }
+
+  const results = DICT.filter(e => {
+    if (dictDir === 'cyr') return e.cyr.includes(q) || e.meaning.toLowerCase().includes(q);
+    return e.script.includes(q) || e.cyr.includes(q);
+  }).slice(0, 15);
+
+  if (!results.length) {
+    container.innerHTML = `<div class="dict-empty"><div class="dict-empty-icon">🔎</div><div class="dict-empty-text">"${q}" олдсонгүй</div><div style="margin-top:8px"><button onclick="setDir('ai');onSearch()" style="padding:8px 16px;background:var(--gold);border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-weight:700;cursor:pointer;color:var(--ink)">🤖 AI-аас асуух</button></div></div>`;
+    return;
+  }
+
+  container.innerHTML = results.map(e => `
+    <div class="dict-entry" onclick="fillAndConvert('${e.cyr}')">
+      <div class="dict-entry-script">${e.script}</div>
+      <div class="dict-entry-body">
+        <div class="dict-entry-pos">${e.pos}</div>
+        <div class="dict-entry-cyrillic">${e.cyr}</div>
+        <div class="dict-entry-meaning">${e.meaning}</div>
+      </div>
+      <div style="clear:both"></div>
+    </div>
+  `).join('');
+}
+
+async function aiSearch() {
+  const q = document.getElementById('searchIn').value.trim();
+  if (!q) return;
+  const container = document.getElementById('dictResults');
+  container.innerHTML = `<div class="dict-empty"><div class="dict-empty-icon">🤖</div><div class="dict-empty-text">AI хайж байна...</div></div>`;
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{
+          text: `Монгол хэлний толь бичгийн туслагч. "${q}" гэдэг үгийг тайлбарла:\n1. Кирилл монгол дээр утгыг тайлбарла\n2. Уламжлалт монгол бичгийн Unicode бичиглэл\n3. Жишээ өгүүлбэр (кирилл дээр)\n4. Ижил утгатай үгс\n\nТовч, тодорхой хариул.`
+        }]}]})
+      }
+    );
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const txt = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    container.innerHTML = `<div class="ai-dict-result show">
+      <div class="ai-label">🤖 AI тайлбар — "${q}"</div>
+      <div class="ai-content">${txt.replace(/\n/g,'<br>')}</div>
+    </div>`;
+  } catch {
+    container.innerHTML = `<div class="dict-empty"><div class="dict-empty-icon">⚠️</div><div class="dict-empty-text">Алдаа гарлаа</div></div>`;
+  }
+}
+
+function fillAndConvert(word) {
+  document.getElementById('searchIn').value = word;
+  setDir('cyr');
+  onSearch();
+}
+
+// ══════════════════════════
+// STATUS
+// ══════════════════════════
+function setS(msg, type) {
+  const el = document.getElementById('st');
+  el.textContent = msg;
+  el.className = 'status' + (type ? ' ' + type : '');
+}
+
+// init
+go('lens');
+
+</script>
+</body>
+</html>
