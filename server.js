@@ -5,8 +5,7 @@ const path = require('path');
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '20mb' }));
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express.static(__dirname));
 const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
 async function callGemini(parts) {
