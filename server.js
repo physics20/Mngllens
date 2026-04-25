@@ -7,34 +7,42 @@ app.use(cors());
 app.use(express.json({ limit: '20mb' }));
 app.use(express.static(__dirname));
 
-const GEMINI_KEY = process.env.GEMINI_API_KEY;
+const CF_TOKEN = process.env.CF_API_TOKEN;
+const CF_ACCOUNT = process.env.CF_ACCOUNT_ID;
 
-async function callGemini(parts) {
+async function callCF(messages, image) {
   const { default: fetch } = await import('node-fetch');
+  
+  const body = image 
+    ? { messages, image: Array.from(Buffer.from(image, 'base64')) }
+    : { messages };
+
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
+    `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/ai/run/@cf/meta/llama-3.2-11b-vision-instruct`,
     {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts }] })
+      headers: {
+        'Authorization': `Bearer ${CF_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
     }
   );
   const data = await res.json();
-  if (data.error) throw new Error(data.error.message);
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  if (!data.success) throw new Error(JSON.stringify(data.errors));
+  return data.result?.response || '';
 }
 
 app.post('/api/scan', async (req, res) => {
   const { imageBase64, mimeType } = req.body;
-  if (!imageBase64 || !mimeType)
-    return res.status(400).json({ error: 'imageBase64 болон mimeType шаардлагатай' });
-  if (!GEMINI_KEY)
-    return res.status(500).json({ error: 'GEMINI_API_KEY тохируулаагүй' });
+  if (!imageBase64) return res.status(400).json({ error: 'imageBase64 шаардлагатай' });
+  if (!CF_TOKEN || !CF_ACCOUNT) return res.status(500).json({ error: 'Cloudflare тохиргоо дутуу' });
+
   try {
-    const text = await callGemini([
-      { inline_data: { mime_type: mimeType, data: imageBase64 } },
-      { text: `Энэ зурагт байгаа бүх монгол бичиг болон текстийг уншиж, дараах форматаар хариул:\n\nКИРИЛЛ: [Зурагт байгаа текстийн кирилл орчуулга. Монгол бичиг байвал кириллд хөрвүүл]\nUNICODE: [Зурагт байгаа монгол бичгийг Unicode монгол бичгийн кодоор бич]\nТАЙЛБАР: [Зурагт байгаа агуулга, контекст, нэмэлт тайлбар]\n\nХэрэв зурагт монгол бичиг байхгүй бол КИРИЛЛ талд "Монгол бичиг олдсонгүй" гэж бич.` }
-    ]);
+    const text = await callCF([{
+      role: 'user',
+      content: `Энэ зурагт байгаа бүх монгол бичиг болон текстийг уншиж, дараах форматаар хариул:\n\nКИРИЛЛ: [Зурагт байгаа текстийн кирилл орчуулга. Монгол бичиг байвал кириллд хөрвүүл]\nUNICODE: [Зурагт байгаа монгол бичгийг Unicode монгол бичгийн кодоор бич]\nТАЙЛБАР: [Зурагт байгаа агуулга, контекст, нэмэлт тайлбар]`
+    }], imageBase64);
     res.json({ text });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -44,10 +52,12 @@ app.post('/api/scan', async (req, res) => {
 app.post('/api/dict', async (req, res) => {
   const { word } = req.body;
   if (!word) return res.status(400).json({ error: 'Үг шаардлагатай' });
-  if (!GEMINI_KEY) return res.status(500).json({ error: 'GEMINI_API_KEY тохируулаагүй' });
+  if (!CF_TOKEN || !CF_ACCOUNT) return res.status(500).json({ error: 'Cloudflare тохиргоо дутуу' });
+
   try {
-    const text = await callGemini([{
-      text: `Монгол хэлний толь бичгийн туслагч. "${word}" гэдэг үгийг тайлбарла:\n1. Кирилл монгол дээр утгыг тайлбарла\n2. Уламжлалт монгол бичгийн Unicode бичиглэл\n3. Жишээ өгүүлбэр (кирилл дээр)\n4. Ижил утгатай үгс\n\nТовч, тодорхой хариул.`
+    const text = await callCF([{
+      role: 'user',
+      content: `Монгол хэлний толь бичгийн туслагч. "${word}" гэдэг үгийг тайлбарла:\n1. Кирилл монгол дээр утгыг тайлбарла\n2. Уламжлалт монгол бичгийн Unicode бичиглэл\n3. Жишээ өгүүлбэр\n4. Ижил утгатай үгс\n\nТовч, тодорхой хариул.`
     }]);
     res.json({ text });
   } catch (err) {
@@ -58,5 +68,5 @@ app.post('/api/dict', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ МонголLens: http://localhost:${PORT}`);
-  console.log(GEMINI_KEY ? '🟢 Gemini key олдлоо' : '🔴 GEMINI_API_KEY байхгүй!');
+  console.log(CF_TOKEN ? '🟢 Cloudflare token олдлоо' : '🔴 CF_API_TOKEN байхгүй!');
 });
